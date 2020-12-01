@@ -5,35 +5,42 @@ import (
 	"fmt"
 )
 
-
-func DoSilver() {
-	nums := utils.LoadInputAsIntSlice(1, "\n")
-	for i, num := range nums {
-		for t, num2 := range nums {
+func getProductOfMatchingSumOfTwoItems(intSlice []int, sum int) int {
+	for i, num := range intSlice {
+		for t, num2 := range intSlice {
 			if i == t {
 				continue
 			}
-			if num + num2 == 2020 {
-				fmt.Println("Solution: ", num * num2)
-				return
+			if num + num2 == sum {
+				return num * num2
 			}
 		}
 	}
+	return -1
+}
+
+func getProductOfMatchingSumOfThreeItems(intSlice []int, sum int) int {
+	for i, num := range intSlice {
+		for t, num2 := range intSlice {
+			for z, num3 := range intSlice {
+				if i == t || t == z || i == z {
+					continue
+				}
+				if num + num2 + num3 == sum {
+					return num * num2 * num3
+				}
+			}
+		}
+	}
+	return -1
+}
+
+func DoSilver() {
+	nums := utils.LoadInputAsIntSlice(1, "\n")
+	fmt.Println("Solution: ", getProductOfMatchingSumOfTwoItems(nums, 2020))
 }
 
 func DoGold() {
 	nums := utils.LoadInputAsIntSlice(1, "\n")
-	for i, num := range nums {
-		for t, num2 := range nums {
-			for z, num3 := range nums {
-				if i == t || t == z || i == z {
-					continue
-				}
-				if num + num2 + num3 == 2020 {
-					fmt.Println("Solution: ", num * num2 * num3)
-					return
-				}
-			}
-		}
-	}
+	fmt.Println("Solution: ", getProductOfMatchingSumOfThreeItems(nums, 2020))
 }
